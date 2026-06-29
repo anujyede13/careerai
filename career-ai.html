@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareerAI — Discover Your Perfect Career Path</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ============================================================
+   CSS VARIABLES & RESET
+============================================================ */
+:root {
+  --primary: #6C63FF;
+  --primary-dark: #5A52E0;
+  --secondary: #3B82F6;
+  --accent: #A78BFA;
+  --accent2: #F472B6;
+  --bg: #0A0A18;
+  --bg2: #0F0F24;
+  --bg-card: rgba(108,99,255,0.07);
+  --border: rgba(108,99,255,0.2);
+  --text: #F1F5F9;
+  --text-muted: #94A3B8;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --radius: 16px;
+  --radius-sm: 8px;
+  --radius-lg: 24px;
+  --shadow: 0 8px 32px rgba(108,99,255,0.15);
+  --shadow-hover: 0 16px 48px rgba(108,99,255,0.35);
+  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+body.light {
+  --bg: #F0EFFF;
+  --bg2: #E8E6FF;
+  --bg-card: rgba(108,99,255,0.06);
+  --border: rgba(108,99,255,0.18);
+  --text: #1E1B4B;
+  --text-muted: #6366F1;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  transition:background 0.3s,color 0.3s;
+  overflow-x:hidden;
+}
+
+/* ============================================================
+   PAGES
+============================================================ */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* ============================================================
+   NAVBAR
+============================================================ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 32px;
+  background:rgba(10,10,24,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:background 0.3s;
+}
+body.light nav{background:rgba(240,239,255,0.88);}
+.nav-logo{
+  font-family:var(--font-display);
+  font-size:1.4rem;font-weight:800;
+  background:linear-gradient(135deg,var(--primary),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  cursor:pointer;
+}
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-links a{
+  color:var(--text-muted);font-size:.9rem;font-weight:500;
+  text-decoration:none;cursor:pointer;transition:var(--transition);
+}
+.nav-links a:hover{color:var(--primary);}
+.nav-actions{display:flex;gap:12px;align-items:center;}
+.btn-theme{
+  background:var(--bg-card);border:1px solid var(--border);
+  color:var(--text);padding:8px 12px;border-radius:var(--radius-sm);
+  cursor:pointer;font-size:.9rem;transition:var(--transition);
+}
+.btn-theme:hover{background:var(--primary);color:#fff;}
+.btn-nav{
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;border:none;padding:10px 22px;border-radius:var(--radius-sm);
+  font-weight:600;font-size:.85rem;cursor:pointer;transition:var(--transition);
+}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+
+/* ============================================================
+   HERO
+============================================================ */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:120px 24px 80px;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 20%,rgba(108,99,255,0.18) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 60% at 80% 80%,rgba(244,114,182,0.12) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 50%,rgba(59,130,246,0.08) 0%,transparent 70%);
+  animation:bgPulse 8s ease-in-out infinite alternate;
+}
+@keyframes bgPulse{
+  from{opacity:.7;}to{opacity:1;}
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--bg-card);border:1px solid var(--border);
+  padding:8px 18px;border-radius:999px;
+  font-size:.8rem;color:var(--accent);font-weight:600;
+  margin-bottom:28px;animation:fadeUp .6s ease both;
+}
+.hero-badge i{color:var(--warning);}
+.hero h1{
+  font-family:var(--font-display);
+  font-size:clamp(2.4rem,6vw,4.2rem);
+  font-weight:800;line-height:1.1;
+  margin-bottom:24px;
+  animation:fadeUp .7s .1s ease both;
+}
+.hero h1 span{
+  background:linear-gradient(135deg,var(--primary),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero p{
+  font-size:clamp(1rem,2vw,1.2rem);
+  color:var(--text-muted);max-width:560px;
+  line-height:1.7;margin-bottom:40px;
+  animation:fadeUp .7s .2s ease both;
+}
+.hero-btns{
+  display:flex;gap:16px;flex-wrap:wrap;justify-content:center;
+  animation:fadeUp .7s .3s ease both;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;border:none;padding:16px 36px;
+  border-radius:var(--radius-sm);font-weight:700;font-size:1rem;
+  cursor:pointer;transition:var(--transition);
+  display:flex;align-items:center;gap:10px;
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);}
+.btn-outline{
+  background:transparent;border:1px solid var(--border);
+  color:var(--text);padding:16px 36px;
+  border-radius:var(--radius-sm);font-weight:600;font-size:1rem;
+  cursor:pointer;transition:var(--transition);
+}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary);}
+
+/* Floating cards */
+.floating-cards{
+  margin-top:60px;
+  display:flex;gap:16px;flex-wrap:wrap;justify-content:center;
+  animation:fadeUp .7s .4s ease both;
+}
+.float-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px 22px;
+  display:flex;align-items:center;gap:12px;
+  backdrop-filter:blur(20px);
+}
+.float-card:nth-child(1){animation:float1 4s ease-in-out infinite;}
+.float-card:nth-child(2){animation:float2 4.5s ease-in-out infinite;}
+.float-card:nth-child(3){animation:float3 5s ease-in-out infinite;}
+@keyframes float1{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+@keyframes float2{0%,100%{transform:translateY(-5px);}50%{transform:translateY(5px);}}
+@keyframes float3{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.float-icon{font-size:1.8rem;}
+.float-info{text-align:left;}
+.float-title{font-weight:700;font-size:.9rem;font-family:var(--font-display);}
+.float-sub{font-size:.75rem;color:var(--text-muted);}
+
+/* ============================================================
+   FEATURES SECTION
+============================================================ */
+.section{padding:100px 24px;}
+.section-label{
+  font-size:.75rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--accent);
+  display:block;margin-bottom:12px;
+}
+.section-title{
+  font-family:var(--font-display);
+  font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;
+  margin-bottom:16px;line-height:1.2;
+}
+.section-sub{
+  color:var(--text-muted);font-size:1rem;
+  max-width:520px;line-height:1.7;
+}
+.centered{text-align:center;margin-bottom:60px;}
+.centered .section-sub{margin:0 auto;}
+
+.features-grid{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:24px;
+}
+.feat-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:32px 28px;
+  transition:var(--transition);cursor:default;
+  position:relative;overflow:hidden;
+}
+.feat-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(108,99,255,.1),transparent);
+  opacity:0;transition:var(--transition);
+}
+.feat-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-hover);border-color:var(--primary);}
+.feat-card:hover::before{opacity:1;}
+.feat-icon{
+  width:52px;height:52px;border-radius:var(--radius-sm);
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:20px;
+}
+.feat-title{font-family:var(--font-display);font-weight:700;font-size:1.05rem;margin-bottom:10px;}
+.feat-desc{color:var(--text-muted);font-size:.9rem;line-height:1.7;}
+
+/* ============================================================
+   HOW IT WORKS
+============================================================ */
+.how-section{
+  max-width:900px;margin:0 auto;padding:80px 24px;
+}
+.steps{display:flex;gap:0;position:relative;flex-wrap:wrap;}
+.steps::before{
+  content:'';position:absolute;top:32px;left:32px;right:32px;
+  height:2px;background:linear-gradient(90deg,var(--primary),var(--accent));
+  opacity:.3;
+}
+.step{
+  flex:1;min-width:200px;text-align:center;padding:0 20px;
+  position:relative;z-index:1;
+}
+.step-num{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-display);font-size:1.3rem;font-weight:800;
+  margin:0 auto 20px;box-shadow:0 0 0 8px rgba(108,99,255,.15);
+}
+.step-title{font-family:var(--font-display);font-weight:700;margin-bottom:8px;}
+.step-desc{color:var(--text-muted);font-size:.85rem;line-height:1.6;}
+
+/* ============================================================
+   ASSESSMENT PAGE
+============================================================ */
+.assessment-wrap{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:100px 24px 60px;
+}
+.progress-bar-wrap{
+  position:fixed;top:72px;left:0;right:0;z-index:90;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:12px 24px;
+}
+.progress-track{
+  max-width:700px;margin:0 auto;
+}
+.progress-info{
+  display:flex;justify-content:space-between;
+  font-size:.8rem;color:var(--text-muted);margin-bottom:8px;font-weight:500;
+}
+.progress-bar-bg{
+  background:rgba(108,99,255,.15);
+  border-radius:999px;height:6px;overflow:hidden;
+}
+.progress-bar-fill{
+  height:100%;border-radius:999px;
+  background:linear-gradient(90deg,var(--primary),var(--accent2));
+  transition:width .5s cubic-bezier(.4,0,.2,1);
+}
+
+.q-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:48px 40px;
+  max-width:680px;width:100%;
+  backdrop-filter:blur(20px);
+  animation:slideIn .4s cubic-bezier(.4,0,.2,1) both;
+}
+@keyframes slideIn{from{opacity:0;transform:translateX(40px);}to{opacity:1;transform:translateX(0);}}
+@keyframes slideOut{from{opacity:1;transform:translateX(0);}to{opacity:0;transform:translateX(-40px);}}
+.q-num{
+  font-family:var(--font-display);
+  font-size:4rem;font-weight:800;
+  color:rgba(108,99,255,.15);
+  line-height:1;margin-bottom:8px;
+}
+.q-category{
+  font-size:.75rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--accent);
+  margin-bottom:16px;display:block;
+}
+.q-text{
+  font-family:var(--font-display);
+  font-size:1.3rem;font-weight:700;
+  line-height:1.4;margin-bottom:36px;
+}
+.options-grid{display:flex;flex-direction:column;gap:12px;}
+.option{
+  background:rgba(108,99,255,.05);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:16px 20px;
+  cursor:pointer;transition:var(--transition);
+  display:flex;align-items:center;gap:14px;
+  font-size:.95rem;font-weight:500;
+}
+.option:hover{border-color:var(--primary);background:rgba(108,99,255,.12);transform:translateX(4px);}
+.option.selected{
+  border-color:var(--primary);
+  background:rgba(108,99,255,.18);
+  color:var(--text);
+}
+.option-dot{
+  width:20px;height:20px;border-radius:50%;
+  border:2px solid var(--border);flex-shrink:0;
+  transition:var(--transition);display:flex;align-items:center;justify-content:center;
+}
+.option.selected .option-dot{
+  border-color:var(--primary);
+  background:var(--primary);
+}
+.option.selected .option-dot::after{
+  content:'';width:6px;height:6px;border-radius:50%;background:#fff;
+}
+
+.q-nav{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-top:32px;
+}
+.btn-back{
+  background:transparent;border:1px solid var(--border);
+  color:var(--text-muted);padding:12px 24px;border-radius:var(--radius-sm);
+  cursor:pointer;font-size:.9rem;font-weight:600;transition:var(--transition);
+  display:flex;align-items:center;gap:8px;
+}
+.btn-back:hover{border-color:var(--primary);color:var(--primary);}
+.btn-back:disabled{opacity:.3;cursor:not-allowed;}
+.btn-next{
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;border:none;padding:14px 32px;
+  border-radius:var(--radius-sm);font-weight:700;font-size:.95rem;
+  cursor:pointer;transition:var(--transition);
+  display:flex;align-items:center;gap:8px;
+}
+.btn-next:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+.btn-next:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+
+/* ============================================================
+   RESULT PAGE
+============================================================ */
+.result-page{padding:100px 24px 60px;max-width:1100px;margin:0 auto;}
+
+.result-hero{
+  text-align:center;padding:60px 24px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);margin-bottom:40px;
+  position:relative;overflow:hidden;
+}
+.result-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(108,99,255,.2),transparent 70%);
+}
+.result-emoji{font-size:3.5rem;margin-bottom:16px;display:block;}
+.result-hero h2{
+  font-family:var(--font-display);
+  font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;
+  margin-bottom:12px;
+}
+.personality-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;padding:10px 24px;border-radius:999px;
+  font-weight:700;font-size:.95rem;margin-bottom:16px;
+}
+.quote{
+  color:var(--text-muted);font-size:1rem;font-style:italic;
+  max-width:500px;margin:0 auto;line-height:1.7;
+}
+
+/* Career cards */
+.section-heading{
+  font-family:var(--font-display);font-size:1.4rem;font-weight:800;
+  margin-bottom:24px;display:flex;align-items:center;gap:10px;
+}
+.careers-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:20px;margin-bottom:48px;
+}
+.career-card{
+  background:var(--bg-card);border:1.5px solid var(--border);
+  border-radius:var(--radius-lg);padding:28px;
+  transition:var(--transition);cursor:default;
+}
+.career-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:var(--primary);}
+.career-card-top{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:16px;
+}
+.career-icon-name{display:flex;align-items:center;gap:12px;}
+.career-emoji{font-size:2.2rem;}
+.career-name{font-family:var(--font-display);font-weight:800;font-size:1.1rem;}
+.career-match{
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;padding:6px 14px;border-radius:999px;
+  font-weight:700;font-size:.9rem;white-space:nowrap;
+}
+.career-desc{color:var(--text-muted);font-size:.88rem;line-height:1.6;margin-bottom:16px;}
+.career-meta{
+  display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;
+}
+.badge{
+  padding:5px 12px;border-radius:999px;font-size:.75rem;font-weight:600;
+  display:inline-flex;align-items:center;gap:5px;
+}
+.badge-salary{background:rgba(16,185,129,.15);color:var(--success);}
+.badge-diff{background:rgba(245,158,11,.15);color:var(--warning);}
+.badge-scope{background:rgba(108,99,255,.15);color:var(--accent);}
+.career-skills{margin-bottom:18px;}
+.career-skills-title{font-size:.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.skill-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.skill-tag{
+  background:rgba(108,99,255,.1);border:1px solid var(--border);
+  color:var(--text-muted);padding:4px 10px;border-radius:4px;font-size:.75rem;font-weight:500;
+}
+
+/* Strengths / Weaknesses */
+.sw-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:20px;
+  margin-bottom:48px;
+}
+@media(max-width:600px){.sw-grid{grid-template-columns:1fr;}}
+.sw-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:28px;
+}
+.sw-title{
+  font-family:var(--font-display);font-weight:700;font-size:1rem;
+  margin-bottom:16px;display:flex;align-items:center;gap:8px;
+}
+.pills{display:flex;flex-wrap:wrap;gap:8px;}
+.pill{
+  padding:8px 16px;border-radius:999px;font-size:.82rem;font-weight:600;
+}
+.pill-strength{background:rgba(16,185,129,.15);color:var(--success);border:1px solid rgba(16,185,129,.3);}
+.pill-weak{background:rgba(245,158,11,.12);color:var(--warning);border:1px solid rgba(245,158,11,.25);}
+
+/* Roadmap */
+.roadmap-wrap{margin-bottom:48px;}
+.roadmap{position:relative;padding-left:32px;}
+.roadmap::before{
+  content:'';position:absolute;left:16px;top:0;bottom:0;
+  width:2px;background:linear-gradient(180deg,var(--primary),var(--accent2));
+  opacity:.4;
+}
+.roadmap-step{
+  position:relative;margin-bottom:28px;
+  padding:24px 24px 24px 24px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);transition:var(--transition);
+}
+.roadmap-step:hover{border-color:var(--primary);}
+.roadmap-dot{
+  position:absolute;left:-40px;top:24px;
+  width:16px;height:16px;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  border:2px solid var(--bg);
+  box-shadow:0 0 0 4px rgba(108,99,255,.2);
+}
+.roadmap-phase{
+  font-size:.72rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:6px;
+}
+.roadmap-title{font-family:var(--font-display);font-weight:700;margin-bottom:10px;}
+.roadmap-tasks{list-style:none;display:flex;flex-wrap:wrap;gap:8px;}
+.roadmap-tasks li{
+  background:rgba(108,99,255,.1);
+  color:var(--text-muted);padding:4px 12px;
+  border-radius:4px;font-size:.8rem;
+}
+
+/* Report */
+.report-card{
+  background:var(--bg-card);border:1.5px solid var(--primary);
+  border-radius:var(--radius-lg);padding:40px;
+  margin-bottom:40px;position:relative;overflow:hidden;
+}
+.report-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--primary),var(--accent2));
+}
+.report-title{
+  font-family:var(--font-display);font-size:1.5rem;font-weight:800;
+  margin-bottom:4px;
+}
+.report-date{color:var(--text-muted);font-size:.82rem;margin-bottom:28px;}
+.report-section{margin-bottom:24px;}
+.report-section-title{
+  font-weight:700;font-size:.9rem;color:var(--accent);
+  text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;
+}
+.report-text{color:var(--text-muted);font-size:.93rem;line-height:1.7;}
+
+.result-actions{
+  display:flex;gap:16px;flex-wrap:wrap;justify-content:center;
+  padding:20px 0 40px;
+}
+.btn-secondary{
+  background:var(--bg-card);border:1.5px solid var(--border);
+  color:var(--text);padding:14px 28px;border-radius:var(--radius-sm);
+  font-weight:600;font-size:.93rem;cursor:pointer;transition:var(--transition);
+  display:flex;align-items:center;gap:8px;
+}
+.btn-secondary:hover{border-color:var(--primary);color:var(--primary);}
+
+/* ============================================================
+   UTILITIES
+============================================================ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.container{max-width:1100px;margin:0 auto;}
+.text-gradient{background:linear-gradient(135deg,var(--primary),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+
+/* Scroll to top */
+#scrollTop{
+  position:fixed;bottom:32px;right:32px;z-index:200;
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  color:#fff;border:none;font-size:1.1rem;
+  cursor:pointer;display:none;align-items:center;justify-content:center;
+  transition:var(--transition);box-shadow:var(--shadow);
+}
+#scrollTop.show{display:flex;}
+#scrollTop:hover{transform:translateY(-3px);}
+
+/* Loading */
+#loader{
+  position:fixed;inset:0;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  z-index:9999;transition:opacity .5s;
+}
+#loader.hide{opacity:0;pointer-events:none;}
+.loader-ring{
+  width:56px;height:56px;border-radius:50%;
+  border:3px solid rgba(108,99,255,.2);
+  border-top-color:var(--primary);
+  animation:spin .8s linear infinite;margin-bottom:16px;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loader-text{color:var(--text-muted);font-size:.9rem;}
+
+/* Responsive nav */
+@media(max-width:640px){
+  nav{padding:14px 16px;}
+  .nav-links{display:none;}
+  .q-card{padding:32px 20px;}
+  .q-num{font-size:2.8rem;}
+  .q-text{font-size:1.1rem;}
+  .section{padding:60px 16px;}
+}
+
+/* Footer */
+footer{
+  border-top:1px solid var(--border);
+  padding:40px 24px;text-align:center;
+  color:var(--text-muted);font-size:.85rem;
+}
+footer a{color:var(--text-muted);text-decoration:none;margin:0 12px;transition:var(--transition);}
+footer a:hover{color:var(--primary);}
+.footer-links{margin-bottom:12px;}
+
+/* Print */
+@media print{
+  nav,.progress-bar-wrap,.result-actions,#scrollTop,footer{display:none!important;}
+  .report-card{border:2px solid #6C63FF!important;background:#fff!important;color:#000!important;}
+  body{background:#fff!important;color:#000!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-ring"></div>
+  <div class="loader-text">Loading CareerAI...</div>
+</div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">⚡ CareerAI</div>
+  <div class="nav-links">
+    <a onclick="showPage('home')">Home</a>
+    <a onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Features</a>
+    <a onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How It Works</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-theme" id="themeBtn" onclick="toggleTheme()">☀️</button>
+    <button class="btn-nav" onclick="startAssessment()">Start Assessment →</button>
+  </div>
+</nav>
+
+<!-- SCROLL TO TOP -->
+<button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <i class="fa fa-arrow-up"></i>
+</button>
+
+<!-- ===========================
+     HOME PAGE
+=========================== -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-badge"><i class="fa fa-star"></i> AI-Powered Career Discovery</div>
+    <h1>Discover Your<br><span>Perfect Career</span><br>Path</h1>
+    <p>Answer 20 smart questions. Get a personalized AI career report with match scores, roadmaps, and skill plans — in under 2 minutes.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="startAssessment()">
+        <i class="fa fa-bolt"></i> Start Free Assessment
+      </button>
+      <button class="btn-outline" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">
+        How It Works ↓
+      </button>
+    </div>
+    <div class="floating-cards">
+      <div class="float-card">
+        <div class="float-icon">💻</div>
+        <div class="float-info">
+          <div class="float-title">Software Engineer</div>
+          <div class="float-sub">98% Match</div>
+        </div>
+      </div>
+      <div class="float-card">
+        <div class="float-icon">🎨</div>
+        <div class="float-info">
+          <div class="float-title">UI/UX Designer</div>
+          <div class="float-sub">91% Match</div>
+        </div>
+      </div>
+      <div class="float-card">
+        <div class="float-icon">📊</div>
+        <div class="float-info">
+          <div class="float-title">Data Scientist</div>
+          <div class="float-sub">87% Match</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="centered">
+        <span class="section-label">What You Get</span>
+        <h2 class="section-title">Everything You Need to<br><span class="text-gradient">Find Your Path</span></h2>
+        <p class="section-sub">Not just a quiz — a complete career intelligence system built for students and young professionals.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feat-card">
+          <div class="feat-icon">🧠</div>
+          <div class="feat-title">Smart Assessment</div>
+          <div class="feat-desc">20 scientifically designed questions covering personality, skills, interests, and working style — weighted across 12 career categories.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">📊</div>
+          <div class="feat-title">Career Match Score</div>
+          <div class="feat-desc">Each career gets a real percentage match based on your answers — not random, not generic. Powered by a weighted scoring algorithm.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">💼</div>
+          <div class="feat-title">Top 5 Careers</div>
+          <div class="feat-desc">Get your top 5 career matches with salary data, required skills, difficulty level, and future scope — all personalised to you.</div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🗺️</div>
+          <div class="feat-title">Learning Roadmap</div>
+          <div class="feat-desc">A step-by-step 12-month roadmap for your #1 career match — from learning basics to landing your first job or client.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" id="how" style="padding-top:20px;">
+    <div class="container">
+      <div class="centered">
+        <span class="section-label">The Process</span>
+        <h2 class="section-title">Three Steps to <span class="text-gradient">Clarity</span></h2>
+      </div>
+      <div class="how-section">
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-title">Take the Test</div>
+            <div class="step-desc">Answer 20 quick questions honestly. No right or wrong answers — just pick what feels like you.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-title">See Your Results</div>
+            <div class="step-desc">Get your top 5 career matches with real match percentages, strengths, and personality type.</div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-title">Follow the Roadmap</div>
+            <div class="step-desc">Use the personalized 12-month roadmap to build skills, do projects, and land opportunities.</div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:40px;">
+        <button class="btn-primary" onclick="startAssessment()">
+          <i class="fa fa-arrow-right"></i> Start Your Assessment Now
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Contact</a>
+    </div>
+    <div>Made for Educational Purpose · CareerAI © 2025</div>
+  </footer>
+</div>
+
+<!-- ===========================
+     ASSESSMENT PAGE
+=========================== -->
+<div id="page-assessment" class="page">
+  <div class="progress-bar-wrap">
+    <div class="progress-track">
+      <div class="progress-info">
+        <span id="qLabel">Question 1 of 20</span>
+        <span id="qCategory">🧠 Personality</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progressFill" style="width:5%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="assessment-wrap">
+    <div class="q-card" id="questionCard">
+      <div class="q-num" id="qNum">01</div>
+      <span class="q-category" id="qCat">Personality</span>
+      <div class="q-text" id="qText">Loading question...</div>
+      <div class="options-grid" id="optionsGrid"></div>
+      <div class="q-nav">
+        <button class="btn-back" id="btnBack" onclick="prevQuestion()" disabled>
+          <i class="fa fa-arrow-left"></i> Back
+        </button>
+        <button class="btn-next" id="btnNext" onclick="nextQuestion()" disabled>
+          Next <i class="fa fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===========================
+     RESULT PAGE
+=========================== -->
+<div id="page-result" class="page">
+  <div class="result-page" id="resultContent">
+    <!-- Dynamically filled -->
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATA: 20 QUESTIONS WITH WEIGHTS
+============================================================ */
+const questions = [
+  {
+    id:1, cat:"Personality",
+    text:"When you face a difficult problem, you usually...",
+    options:[
+      {text:"Analyze data and think logically step by step", w:{engineering:3,datascience:2}},
+      {text:"Talk to people and gather different opinions", w:{business:3,marketing:2}},
+      {text:"Get creative and try completely new approaches", w:{design:3,art:2}},
+      {text:"Follow a proven method or established rule", w:{law:2,finance:2}}
+    ]
+  },
+  {
+    id:2, cat:"Communication",
+    text:"How do you best express your ideas?",
+    options:[
+      {text:"Through writing, stories or articles", w:{writing:3,education:1}},
+      {text:"Through visuals, designs or illustrations", w:{design:3,art:2}},
+      {text:"Through speaking, debating or presenting", w:{business:3,marketing:2}},
+      {text:"Through code, formulas or data", w:{engineering:3,datascience:2}}
+    ]
+  },
+  {
+    id:3, cat:"Leadership",
+    text:"In a group project, you naturally tend to...",
+    options:[
+      {text:"Take charge, set goals and delegate tasks", w:{business:3,marketing:1}},
+      {text:"Support team members and keep morale high", w:{healthcare:3,education:2}},
+      {text:"Handle the technical or research parts", w:{engineering:3,datascience:2}},
+      {text:"Review for quality, accuracy and fairness", w:{law:2,finance:3}}
+    ]
+  },
+  {
+    id:4, cat:"Creativity",
+    text:"Which activity sounds most exciting to you?",
+    options:[
+      {text:"Designing a mobile app from scratch", w:{design:3,engineering:2}},
+      {text:"Writing a short film script or novel", w:{writing:3,art:2}},
+      {text:"Solving a real business case study", w:{business:3,finance:2}},
+      {text:"Running a science or psychology experiment", w:{science:3,datascience:2}}
+    ]
+  },
+  {
+    id:5, cat:"Problem Solving",
+    text:"You enjoy working on problems that are...",
+    options:[
+      {text:"Technical, logical and systematic", w:{engineering:3,datascience:3}},
+      {text:"About people, emotions and relationships", w:{healthcare:3,education:2}},
+      {text:"Creative, open-ended and unique every time", w:{design:3,art:2}},
+      {text:"Financial, numerical or economic", w:{finance:3,business:2}}
+    ]
+  },
+  {
+    id:6, cat:"Emotional Intelligence",
+    text:"When someone around you is upset, you...",
+    options:[
+      {text:"Immediately try to comfort and support them", w:{healthcare:3,education:2}},
+      {text:"Listen carefully then give practical advice", w:{law:2,business:2}},
+      {text:"Give them space and check in later", w:{engineering:1,science:1}},
+      {text:"Write them a thoughtful note or message", w:{writing:3,art:1}}
+    ]
+  },
+  {
+    id:7, cat:"Learning Style",
+    text:"You learn new things best by...",
+    options:[
+      {text:"Watching videos and studying visual examples", w:{design:2,art:2}},
+      {text:"Reading books, articles and research papers", w:{writing:2,law:2}},
+      {text:"Doing hands-on experiments and building things", w:{science:3,engineering:2}},
+      {text:"Discussing and debating with others", w:{education:3,business:2}}
+    ]
+  },
+  {
+    id:8, cat:"Technology",
+    text:"Which tech topic interests you the most?",
+    options:[
+      {text:"Artificial Intelligence and Machine Learning", w:{datascience:3,engineering:2}},
+      {text:"Cybersecurity and ethical hacking", w:{engineering:3,law:1}},
+      {text:"UI/UX Design and user experience", w:{design:3,art:1}},
+      {text:"Digital Marketing and social media growth", w:{marketing:3,business:2}}
+    ]
+  },
+  {
+    id:9, cat:"Business",
+    text:"If you started your own company, it would focus on...",
+    options:[
+      {text:"Building a tech product or app", w:{engineering:3,design:2}},
+      {text:"Providing a healthcare or wellness service", w:{healthcare:3,science:1}},
+      {text:"Creating educational content or courses", w:{education:3,writing:2}},
+      {text:"Growing a profitable brand or marketplace", w:{business:3,marketing:3}}
+    ]
+  },
+  {
+    id:10, cat:"Art & Culture",
+    text:"Which creative work do you admire most?",
+    options:[
+      {text:"A beautifully designed website or product", w:{design:3,art:2}},
+      {text:"A powerful film, documentary or novel", w:{writing:3,art:3}},
+      {text:"Original music, performance or street art", w:{art:3}},
+      {text:"An elegant data visualization or infographic", w:{datascience:2,design:2}}
+    ]
+  },
+  {
+    id:11, cat:"Science",
+    text:"Which science topic excites you the most?",
+    options:[
+      {text:"Human biology, medicine and mental health", w:{healthcare:3,science:3}},
+      {text:"Space, physics and the universe", w:{science:3,engineering:2}},
+      {text:"Environment, climate and sustainability", w:{science:3}},
+      {text:"Mathematics, statistics and algorithms", w:{datascience:3,finance:2}}
+    ]
+  },
+  {
+    id:12, cat:"Stress Handling",
+    text:"When facing a tight deadline, you...",
+    options:[
+      {text:"Work intensely, stay focused and push through", w:{engineering:2,finance:2}},
+      {text:"Delegate tasks and ask for help", w:{business:3,education:1}},
+      {text:"Prioritize tasks and cut what's not essential", w:{law:2,datascience:2}},
+      {text:"Find a creative shortcut or smarter solution", w:{design:2,writing:2}}
+    ]
+  },
+  {
+    id:13, cat:"Teamwork",
+    text:"You prefer to work...",
+    options:[
+      {text:"Alone with full control over my work", w:{writing:2,design:2}},
+      {text:"In a small, close-knit technical team", w:{engineering:2,datascience:2}},
+      {text:"In a large, social, fast-paced environment", w:{business:3,marketing:3}},
+      {text:"Directly with clients, patients or students", w:{healthcare:3,law:2}}
+    ]
+  },
+  {
+    id:14, cat:"Decision Making",
+    text:"When making an important decision, you rely on...",
+    options:[
+      {text:"Research, data and hard evidence", w:{datascience:3,science:2}},
+      {text:"Gut feeling and personal intuition", w:{art:2,design:2}},
+      {text:"Expert opinion, rules and legal precedent", w:{law:3,finance:2}},
+      {text:"Community feedback and public sentiment", w:{marketing:3,education:2}}
+    ]
+  },
+  {
+    id:15, cat:"Curiosity",
+    text:"You spend hours reading about...",
+    options:[
+      {text:"New startups, tech products and innovation", w:{engineering:2,business:3}},
+      {text:"Health, wellness, psychology and mindfulness", w:{healthcare:3,science:2}},
+      {text:"Design trends, fashion and visual aesthetics", w:{design:3,art:2}},
+      {text:"Stock markets, economics and investments", w:{finance:3,business:2}}
+    ]
+  },
+  {
+    id:16, cat:"Work Style",
+    text:"Your friends would describe your work style as...",
+    options:[
+      {text:"Disciplined, methodical and detail-oriented", w:{engineering:2,law:3}},
+      {text:"Creative, spontaneous and idea-driven", w:{art:3,design:2}},
+      {text:"Collaborative, social and communicative", w:{education:3,marketing:2}},
+      {text:"Ambitious, goal-driven and competitive", w:{business:3,finance:2}}
+    ]
+  },
+  {
+    id:17, cat:"Risk Taking",
+    text:"Your attitude toward risk and uncertainty is...",
+    options:[
+      {text:"Calculated — only when research supports it", w:{finance:3,datascience:2}},
+      {text:"Bold — I love taking big chances", w:{business:3,art:2}},
+      {text:"Cautious — I prefer proven, safe methods", w:{law:3,healthcare:2}},
+      {text:"Balanced — depends on what's at stake", w:{engineering:2,design:2}}
+    ]
+  },
+  {
+    id:18, cat:"Work Environment",
+    text:"Your dream work environment is...",
+    options:[
+      {text:"A quiet lab, studio or coding workspace", w:{science:3,engineering:3}},
+      {text:"A creative agency, studio or design firm", w:{design:3,art:3}},
+      {text:"A hospital, school or community setting", w:{healthcare:3,education:3}},
+      {text:"A fast-paced office, startup or agency", w:{business:3,marketing:3}}
+    ]
+  },
+  {
+    id:19, cat:"Future Goals",
+    text:"In 10 years, you want to be known as...",
+    options:[
+      {text:"A respected expert or authority in your field", w:{law:2,science:2}},
+      {text:"A successful entrepreneur or business leader", w:{business:3,marketing:2}},
+      {text:"Someone who genuinely helped many people", w:{healthcare:3,education:3}},
+      {text:"A creative pioneer who shaped culture", w:{art:3,design:2}}
+    ]
+  },
+  {
+    id:20, cat:"Life Priorities",
+    text:"What matters most to you in your career?",
+    options:[
+      {text:"High income and financial independence", w:{finance:3,business:2}},
+      {text:"Creativity and personal self-expression", w:{art:3,writing:3}},
+      {text:"Stability, status and social respect", w:{law:3,healthcare:2}},
+      {text:"Real-world impact and making a difference", w:{education:3,science:2}}
+    ]
+  }
+];
+
+/* ============================================================
+   DATA: CAREERS
+============================================================ */
+const careers = [
+  { cat:"engineering", name:"Software Engineer", emoji:"💻",
+    desc:"Build the apps, systems and software that power the modern world.",
+    skills:["JavaScript","Python","Problem Solving","Git","Algorithms"],
+    salary:"₹8L–₹40L/yr", diff:"High", scope:"Excellent — AI & cloud roles booming" },
+  { cat:"datascience", name:"Data Scientist", emoji:"📊",
+    desc:"Find patterns in data to help businesses make smarter, faster decisions.",
+    skills:["Python","Statistics","Machine Learning","SQL","Visualization"],
+    salary:"₹10L–₹50L/yr", diff:"High", scope:"Very High — every industry needs data" },
+  { cat:"design", name:"UI/UX Designer", emoji:"🎨",
+    desc:"Create beautiful, intuitive digital experiences that people love to use.",
+    skills:["Figma","User Research","Wireframing","Typography","Prototyping"],
+    salary:"₹6L–₹30L/yr", diff:"Medium", scope:"Strong — product companies always hiring" },
+  { cat:"healthcare", name:"Doctor / Medical Pro", emoji:"🏥",
+    desc:"Diagnose, treat and improve the physical and mental health of people.",
+    skills:["Biology","Empathy","Critical Thinking","Communication","Research"],
+    salary:"₹8L–₹60L/yr", diff:"Very High", scope:"Always high — healthcare is evergreen" },
+  { cat:"business", name:"Entrepreneur / Manager", emoji:"🚀",
+    desc:"Build, lead and scale teams, products or your own business from the ground up.",
+    skills:["Leadership","Strategy","Finance Basics","Communication","Networking"],
+    salary:"Unlimited potential", diff:"High", scope:"High risk, high reward" },
+  { cat:"writing", name:"Content Creator / Writer", emoji:"✍️",
+    desc:"Tell stories, educate audiences, and build brands through the power of words.",
+    skills:["SEO","Storytelling","Research","Copywriting","Social Media"],
+    salary:"₹3L–₹20L/yr", diff:"Medium", scope:"Growing — content demand rising fast" },
+  { cat:"law", name:"Lawyer / Legal Consultant", emoji:"⚖️",
+    desc:"Interpret laws, represent clients and ensure justice is served.",
+    skills:["Critical Thinking","Research","Argumentation","Ethics","Writing"],
+    salary:"₹5L–₹50L/yr", diff:"Very High", scope:"Stable — corporate & digital law growing" },
+  { cat:"education", name:"Teacher / Educator", emoji:"📚",
+    desc:"Shape minds and inspire the next generation through knowledge and mentorship.",
+    skills:["Communication","Patience","Subject Mastery","Curriculum Design","Empathy"],
+    salary:"₹3L–₹20L/yr", diff:"Medium", scope:"EdTech booming — online teaching exploding" },
+  { cat:"finance", name:"Financial Analyst / CA", emoji:"💰",
+    desc:"Manage money, investments and guide smart financial decisions for people and firms.",
+    skills:["Excel","Accounting","Financial Modelling","Analysis","Attention to Detail"],
+    salary:"₹6L–₹40L/yr", diff:"High", scope:"Strong — fintech transforming the industry" },
+  { cat:"marketing", name:"Digital Marketer", emoji:"📣",
+    desc:"Grow brands online through content, paid ads, SEO and data-driven strategies.",
+    skills:["SEO/SEM","Analytics","Copywriting","Social Media","A/B Testing"],
+    salary:"₹4L–₹25L/yr", diff:"Medium", scope:"High — every brand needs digital presence" },
+  { cat:"art", name:"Artist / Creative Director", emoji:"🎭",
+    desc:"Express culture, identity and emotion through visual art, film, music or performance.",
+    skills:["Creativity","Portfolio Building","Networking","Discipline","Medium Mastery"],
+    salary:"₹3L–₹30L/yr", diff:"Medium", scope:"NFT, AI art and streaming opening new doors" },
+  { cat:"science", name:"Researcher / Scientist", emoji:"🔬",
+    desc:"Advance human knowledge through rigorous experiments, observation and discovery.",
+    skills:["Scientific Method","Data Analysis","Academic Writing","Curiosity","Statistics"],
+    salary:"₹5L–₹30L/yr", diff:"Very High", scope:"Critical in climate, biotech and space" }
+];
+
+/* ============================================================
+   DATA: ROADMAPS
+============================================================ */
+const roadmaps = {
+  engineering:[
+    {phase:"Month 1–3",title:"Learn the Basics",tasks:["HTML/CSS/JavaScript","Python basics","Git & GitHub","Pick one language deeply"]},
+    {phase:"Month 3–6",title:"Build Real Projects",tasks:["Todo App","Weather App","Portfolio website","Contribute to open source"]},
+    {phase:"Month 6–9",title:"Internship / Freelance",tasks:["Apply on Internshala","Freelance on Fiverr","Build for local businesses","Network on LinkedIn"]},
+    {phase:"Month 9–12",title:"Job Preparation",tasks:["DSA practice (LeetCode)","Mock interviews","Resume building","System design basics"]},
+    {phase:"Year 1+",title:"First Job & Growth",tasks:["Apply actively","Keep building side projects","Upskill in cloud or AI","Mentor others"]}
+  ],
+  datascience:[
+    {phase:"Month 1–3",title:"Math & Python Foundations",tasks:["Python with NumPy/Pandas","Statistics & probability","Linear algebra basics","Kaggle beginner courses"]},
+    {phase:"Month 3–6",title:"Machine Learning",tasks:["Scikit-learn","Regression & classification","Data cleaning","Visualization with Matplotlib"]},
+    {phase:"Month 6–9",title:"Projects & Competitions",tasks:["2–3 Kaggle competitions","Personal ML project","Build a portfolio on GitHub","SQL for data querying"]},
+    {phase:"Month 9–12",title:"Specialise & Apply",tasks:["Deep Learning (TensorFlow/PyTorch)","NLP or Computer Vision","Apply for analyst/DS roles","Interview prep"]},
+    {phase:"Year 1+",title:"Industry & Growth",tasks:["Work on real business data","Learn cloud (AWS/GCP)","Publish research or articles","Senior roles"]}
+  ],
+  design:[
+    {phase:"Month 1–3",title:"Design Fundamentals",tasks:["Typography & color theory","Figma (free)","UI principles","Study great apps daily"]},
+    {phase:"Month 3–6",title:"Build a Portfolio",tasks:["3 case studies","Redesign an existing app","Mobile-first projects","Get feedback from communities"]},
+    {phase:"Month 6–9",title:"Freelance & Internship",tasks:["Behance & Dribbble profile","Apply for junior roles","Freelance small projects","Learn basic HTML/CSS"]},
+    {phase:"Month 9–12",title:"Advanced Skills",tasks:["Motion design basics","Design systems","Research methods","Accessibility (WCAG)"]},
+    {phase:"Year 1+",title:"Senior Designer",tasks:["Lead design projects","Mentor juniors","Product thinking","UX strategy"]}
+  ],
+  default:[
+    {phase:"Month 1–3",title:"Explore Your Field",tasks:["Read books and blogs","Watch intro courses","Connect with professionals","Identify your niche"]},
+    {phase:"Month 3–6",title:"Build Core Skills",tasks:["Take structured courses","Practice daily","Start a small project","Find a mentor"]},
+    {phase:"Month 6–9",title:"Get Real Experience",tasks:["Internship or part-time","Volunteer projects","Build your portfolio","Network actively"]},
+    {phase:"Month 9–12",title:"Prepare for Opportunities",tasks:["Polish resume & LinkedIn","Attend industry events","Apply for entry roles","Interview preparation"]},
+    {phase:"Year 1+",title:"Grow & Specialize",tasks:["Deepen your expertise","Lead projects","Teach others","Build your personal brand"]}
+  ]
+};
+
+const personalities = {
+  engineering:"The Logical Builder",
+  datascience:"The Pattern Seeker",
+  design:"The Visual Thinker",
+  healthcare:"The Compassionate Healer",
+  business:"The Ambitious Achiever",
+  writing:"The Storyteller",
+  law:"The Critical Mind",
+  education:"The Knowledge Sharer",
+  finance:"The Strategic Analyst",
+  marketing:"The Connector",
+  art:"The Creative Soul",
+  science:"The Curious Explorer"
+};
+
+const strengthLabels = {
+  engineering:"Technical Problem Solving",datascience:"Analytical Thinking",
+  design:"Visual Creativity",healthcare:"Empathy & Care",
+  business:"Leadership & Strategy",writing:"Communication & Storytelling",
+  law:"Critical & Logical Reasoning",education:"Teaching & Patience",
+  finance:"Numerical Intelligence",marketing:"Persuasion & Influence",
+  art:"Artistic Expression",science:"Research & Curiosity"
+};
+
+const quotes = [
+  "The best way to predict the future is to create it. — Peter Drucker",
+  "Choose a job you love, and you will never work a day in your life. — Confucius",
+  "Your work is going to fill a large part of your life. The only way to be truly satisfied is to do what you believe is great work. — Steve Jobs",
+  "Success is not the key to happiness. Happiness is the key to success. — Albert Schweitzer",
+  "Don't watch the clock; do what it does. Keep going. — Sam Levenson"
+];
+
+/* ============================================================
+   STATE
+============================================================ */
+let currentQ = 0;
+let answers = new Array(20).fill(null);
+
+/* ============================================================
+   PAGE MANAGEMENT
+============================================================ */
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ============================================================
+   THEME
+============================================================ */
+function toggleTheme() {
+  document.body.classList.toggle('light');
+  const isLight = document.body.classList.contains('light');
+  document.getElementById('themeBtn').textContent = isLight ? '🌙' : '☀️';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+(function initTheme(){
+  const saved = localStorage.getItem('theme');
+  if(saved==='light'){document.body.classList.add('light');document.getElementById('themeBtn').textContent='🌙';}
+})();
+
+/* ============================================================
+   ASSESSMENT LOGIC
+============================================================ */
+function startAssessment() {
+  currentQ = 0;
+  answers = new Array(20).fill(null);
+  renderQuestion();
+  showPage('assessment');
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const num = String(currentQ+1).padStart(2,'0');
+
+  document.getElementById('qNum').textContent = num;
+  document.getElementById('qCat').textContent = q.cat;
+  document.getElementById('qText').textContent = q.text;
+  document.getElementById('qLabel').textContent = `Question ${currentQ+1} of 20`;
+  document.getElementById('qCategory').textContent = `📍 ${q.cat}`;
+
+  const fill = ((currentQ+1)/20*100).toFixed(0);
+  document.getElementById('progressFill').style.width = fill+'%';
+
+  const grid = document.getElementById('optionsGrid');
+  grid.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option' + (answers[currentQ]===i ? ' selected' : '');
+    div.innerHTML = `<div class="option-dot"></div><span>${opt.text}</span>`;
+    div.onclick = () => selectOption(i);
+    grid.appendChild(div);
+  });
+
+  document.getElementById('btnBack').disabled = currentQ === 0;
+  document.getElementById('btnNext').disabled = answers[currentQ] === null;
+
+  // Animate card
+  const card = document.getElementById('questionCard');
+  card.style.animation = 'none';
+  card.offsetHeight; // reflow
+  card.style.animation = 'slideIn .4s cubic-bezier(.4,0,.2,1) both';
+}
+
+function selectOption(i) {
+  answers[currentQ] = i;
+  document.querySelectorAll('.option').forEach((el,idx)=>{
+    el.classList.toggle('selected', idx===i);
+  });
+  document.getElementById('btnNext').disabled = false;
+}
+
+function nextQuestion() {
+  if(answers[currentQ]===null) return;
+  if(currentQ === 19) {
+    generateResult();
+    return;
+  }
+  currentQ++;
+  renderQuestion();
+}
+
+function prevQuestion() {
+  if(currentQ===0) return;
+  currentQ--;
+  renderQuestion();
+}
+
+/* ============================================================
+   SCORING ALGORITHM
+============================================================ */
+function calcScores() {
+  const scores = {};
+  answers.forEach((ansIdx, qIdx) => {
+    if(ansIdx===null) return;
+    const weights = questions[qIdx].options[ansIdx].w;
+    for(const [cat, pts] of Object.entries(weights)) {
+      scores[cat] = (scores[cat]||0) + pts;
+    }
+  });
+  // Normalize
+  const max = Math.max(...Object.values(scores));
+  const norm = {};
+  for(const [cat, score] of Object.entries(scores)) {
+    norm[cat] = Math.round((score/max)*100);
+  }
+  return norm;
+}
+
+function getTopCareers(scores, n=5) {
+  return careers
+    .map(c => ({...c, match: scores[c.cat]||0}))
+    .sort((a,b)=>b.match-a.match)
+    .slice(0,n);
+}
+
+/* ============================================================
+   RESULT RENDERING
+============================================================ */
+function generateResult() {
+  showPage('result');
+  const scores = calcScores();
+  const topCareers = getTopCareers(scores);
+  const topCat = topCareers[0].cat;
+  const personality = personalities[topCat] || "The Driven Explorer";
+
+  // Sort categories for strengths/weaknesses
+  const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const strengths = sorted.slice(0,3).map(([cat])=>strengthLabels[cat]);
+  const weaknesses = sorted.slice(-3).map(([cat])=>strengthLabels[cat]);
+
+  // Pick roadmap
+  const roadmap = roadmaps[topCat] || roadmaps.default;
+  const quote = quotes[Math.floor(Math.random()*quotes.length)];
+
+  const html = `
+    <!-- HERO -->
+    <div class="result-hero">
+      <span class="result-emoji">🎉</span>
+      <h2>Your Career Report is Ready!</h2>
+      <div class="personality-badge">✨ ${personality}</div>
+      <p class="quote">"${quote}"</p>
+    </div>
+
+    <!-- TOP CAREERS -->
+    <div class="section-heading">🏆 Your Top Career Matches</div>
+    <div class="careers-grid">
+      ${topCareers.map(c=>`
+        <div class="career-card">
+          <div class="career-card-top">
+            <div class="career-icon-name">
+              <span class="career-emoji">${c.emoji}</span>
+              <div class="career-name">${c.name}</div>
+            </div>
+            <div class="career-match">${c.match}% Match</div>
+          </div>
+          <div class="career-desc">${c.desc}</div>
+          <div class="career-meta">
+            <span class="badge badge-salary"><i class="fa fa-indian-rupee-sign"></i> ${c.salary}</span>
+            <span class="badge badge-diff">📈 ${c.diff}</span>
+          </div>
+          <div class="career-skills">
+            <div class="career-skills-title">Key Skills</div>
+            <div class="skill-tags">${c.skills.map(s=>`<span class="skill-tag">${s}</span>`).join('')}</div>
+          </div>
+          <div class="badge badge-scope" style="font-size:.78rem;">🔭 ${c.scope}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- STRENGTHS & WEAKNESSES -->
+    <div class="section-heading">💡 Your Strengths & Growth Areas</div>
+    <div class="sw-grid">
+      <div class="sw-card">
+        <div class="sw-title">✅ Your Strengths</div>
+        <div class="pills">
+          ${strengths.map(s=>`<span class="pill pill-strength">${s}</span>`).join('')}
+        </div>
+      </div>
+      <div class="sw-card">
+        <div class="sw-title">🌱 Areas to Develop</div>
+        <div class="pills">
+          ${weaknesses.map(s=>`<span class="pill pill-weak">${s}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- ROADMAP -->
+    <div class="section-heading">🗺️ Your 12-Month Roadmap for ${topCareers[0].name}</div>
+    <div class="roadmap-wrap">
+      <div class="roadmap">
+        ${roadmap.map(step=>`
+          <div class="roadmap-step">
+            <div class="roadmap-dot"></div>
+            <div class="roadmap-phase">${step.phase}</div>
+            <div class="roadmap-title">${step.title}</div>
+            <ul class="roadmap-tasks">
+              ${step.tasks.map(t=>`<li>${t}</li>`).join('')}
+            </ul>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- AI REPORT -->
+    <div class="section-heading">📄 Your AI Career Report</div>
+    <div class="report-card" id="reportCard">
+      <div class="report-title">Career Analysis Report</div>
+      <div class="report-date">Generated on ${new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}</div>
+
+      <div class="report-section">
+        <div class="report-section-title">Personality Summary</div>
+        <div class="report-text">
+          Based on your 20 answers, you are identified as <strong>${personality}</strong>.
+          You tend to approach problems with a strong inclination toward <strong>${strengthLabels[topCat]}</strong>.
+          Your responses show a consistent preference for environments and tasks aligned with <strong>${topCareers[0].name}</strong> and <strong>${topCareers[1].name}</strong>.
+        </div>
+      </div>
+
+      <div class="report-section">
+        <div class="report-section-title">Top Strengths</div>
+        <div class="report-text">${strengths.join(' · ')}</div>
+      </div>
+
+      <div class="report-section">
+        <div class="report-section-title">Career Suggestions</div>
+        <div class="report-text">
+          ${topCareers.slice(0,3).map((c,i)=>`${i+1}. <strong>${c.name}</strong> (${c.match}% match)`).join('<br>')}
+        </div>
+      </div>
+
+      <div class="report-section">
+        <div class="report-section-title">Final Advice</div>
+        <div class="report-text">
+          Your personality and interest profile places you among people who thrive in <strong>${topCareers[0].name}</strong> roles.
+          Start with the fundamentals in your roadmap, build real projects and connect with professionals in the field.
+          Your biggest advantage is your natural strength in <strong>${strengths[0]}</strong> — leverage it early and often.
+          Remember: career clarity comes from doing, not just planning. Take the first step this week.
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="result-actions">
+      <button class="btn-primary" onclick="window.print()">
+        <i class="fa fa-print"></i> Save as PDF
+      </button>
+      <button class="btn-secondary" onclick="startAssessment()">
+        <i class="fa fa-rotate-right"></i> Retake Assessment
+      </button>
+      <button class="btn-secondary" onclick="copyLink()">
+        <i class="fa fa-share-nodes"></i> Share
+      </button>
+    </div>
+
+    <footer style="text-align:center;padding:40px 0 20px;color:var(--text-muted);font-size:.82rem;">
+      Made for Educational Purpose · CareerAI © 2025
+    </footer>
+  `;
+
+  document.getElementById('resultContent').innerHTML = html;
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(()=>{
+    alert('Link copied to clipboard!');
+  });
+}
+
+/* ============================================================
+   SCROLL TO TOP
+============================================================ */
+window.addEventListener('scroll',()=>{
+  const btn = document.getElementById('scrollTop');
+  btn.classList.toggle('show', window.scrollY > 400);
+});
+
+/* ============================================================
+   LOADER
+============================================================ */
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('hide');
+  },600);
+});
+</script>
+</body>
+</html>
